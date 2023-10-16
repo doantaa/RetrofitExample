@@ -8,7 +8,7 @@ import retrofit2.http.GET
 import java.util.concurrent.TimeUnit
 
 interface ProductService {
-    @GET("https://dummyjson.com/products")
+    @GET("https://dummyjson.com/products/")
     // Flow
     suspend fun getProducts(): ProductsResponse
 
@@ -24,7 +24,7 @@ interface ProductService {
                 .build()
 
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://dummyjson.com/")
+                .baseUrl("https://dummyjson/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build()
