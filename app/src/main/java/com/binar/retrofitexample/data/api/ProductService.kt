@@ -1,8 +1,6 @@
 package com.binar.retrofitexample.data.api
 
 import com.binar.retrofitexample.model.ProductsResponse
-import com.binar.retrofitexample.utils.ResultWrapper
-import kotlinx.coroutines.flow.Flow
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,10 +10,10 @@ import java.util.concurrent.TimeUnit
 interface ProductService {
     @GET("https://dummyjson.com/products")
     // Flow
-//    suspend fun getProducts(): Flow<ProductsResponse>
+    suspend fun getProducts(): ProductsResponse
 
     //ProductResponse
-    suspend fun getProducts(): ProductsResponse
+//    suspend fun getProducts(): ProductsResponse
 
     companion object {
         @JvmStatic
