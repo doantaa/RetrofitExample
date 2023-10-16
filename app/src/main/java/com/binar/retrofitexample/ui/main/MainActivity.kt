@@ -5,7 +5,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.binar.retrofitexample.data.api.repository.ProductRepositoryImpl
+import com.binar.retrofitexample.R
+import com.binar.retrofitexample.data.api.ProductService
+import com.binar.retrofitexample.data.api.datasource.ProductDataSourceImpl
+import com.binar.retrofitexample.data.repository.ProductRepositoryImpl
 import com.binar.retrofitexample.databinding.ActivityMainBinding
 import com.binar.retrofitexample.utils.GenericViewModelFactory
 import com.binar.retrofitexample.utils.proceedWhen
@@ -17,7 +20,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val viewModel: MainViewModel by viewModels {
-        val repository = ProductRepositoryImpl()
+        val service = ProductService()
+        val datasource = ProductDataSourceImpl(service)
+        val repository = ProductRepositoryImpl(datasource)
         GenericViewModelFactory.create(MainViewModel(repository))
     }
 
@@ -30,11 +35,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setupRecyclerView()
         fetchData()
+
         setContentView(binding.root)
 
     }
 
     private fun fetchData() {
+        viewModel.getProducts()
+
         viewModel.responseLiveData.observe(this) {
             it.proceedWhen(
                 doOnSuccess = {
@@ -47,11 +55,11 @@ class MainActivity : AppCompatActivity() {
                 },
                 doOnLoading = {
                     binding.tvLayout.isVisible = true
-                    binding.tvLayout.text = "sebentar ya!"
+                    binding.tvLayout.text = getString(R.string.text_loading_state)
                 }
             )
         }
-        viewModel.getProducts()
+
     }
 
     private fun setupRecyclerView() {
