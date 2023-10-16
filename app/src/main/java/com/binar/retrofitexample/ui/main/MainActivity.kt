@@ -5,7 +5,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.binar.retrofitexample.R
 import com.binar.retrofitexample.data.api.ProductService
 import com.binar.retrofitexample.data.api.datasource.ProductDataSourceImpl
 import com.binar.retrofitexample.data.repository.ProductRepositoryImpl
@@ -41,22 +40,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchData() {
+        // invoker
         viewModel.getProducts()
 
+        //observer
         viewModel.responseLiveData.observe(this) {
             it.proceedWhen(
                 doOnSuccess = {
                     binding.rvProducts.isVisible = true
                     it.payload?.let { data ->
-                        binding.rvProducts.adapter = adapter
                         adapter.setData(data.products)
                     }
-                    binding.tvLayout.isVisible = false
+                    binding.pbLoading.isVisible = false
                 },
                 doOnLoading = {
-                    binding.tvLayout.isVisible = true
-                    binding.tvLayout.text = getString(R.string.text_loading_state)
-                }
+                    binding.pbLoading.isVisible = true
+
+                },
+                doOnError = {
+                    binding.pbLoading.isVisible = false
+                    binding.tvLayout.text = it.exception.toString()
+                },
             )
         }
 

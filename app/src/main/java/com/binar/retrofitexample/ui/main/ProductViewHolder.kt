@@ -1,11 +1,11 @@
 package com.binar.retrofitexample.ui.main
 
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.binar.retrofitexample.core.ViewHolderBinder
 import com.binar.retrofitexample.databinding.ItemProductBinding
 import com.binar.retrofitexample.model.Product
+import com.binar.retrofitexample.utils.toCurrencyFormat
 
 class ProductViewHolder(
     private val binding: ItemProductBinding
@@ -13,7 +13,7 @@ class ProductViewHolder(
     override fun bind(item: Product) {
         binding.ivProductImage.load(item.images[0])
         binding.tvName.text = item.title
-        binding.tvPrice.text = item.price.toString()
+        binding.tvPrice.text = item.price.toCurrencyFormat()
         binding.tvDescription.text = item.desc
     }
 }
