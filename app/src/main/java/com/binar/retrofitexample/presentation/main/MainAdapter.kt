@@ -1,6 +1,5 @@
-package com.binar.retrofitexample.ui.main
+package com.binar.retrofitexample.presentation.main
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -8,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.binar.retrofitexample.core.ViewHolderBinder
 import com.binar.retrofitexample.databinding.ItemProductBinding
-import com.binar.retrofitexample.model.Product
+import com.binar.retrofitexample.data.network.api.model.Product
 
 class MainAdapter() : RecyclerView.Adapter<ProductViewHolder>() {
 

@@ -1,13 +1,13 @@
-package com.binar.retrofitexample.ui.main
+package com.binar.retrofitexample.presentation.main
 
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.binar.retrofitexample.data.api.ProductService
-import com.binar.retrofitexample.data.api.datasource.ProductDataSourceImpl
-import com.binar.retrofitexample.data.repository.ProductRepositoryImpl
+import com.binar.retrofitexample.data.network.api.service.ProductService
+import com.binar.retrofitexample.data.network.api.datasource.ProductDataSourceImpl
+import com.binar.retrofitexample.data.network.repository.ProductRepositoryImpl
 import com.binar.retrofitexample.databinding.ActivityMainBinding
 import com.binar.retrofitexample.utils.GenericViewModelFactory
 import com.binar.retrofitexample.utils.proceedWhen
@@ -19,10 +19,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val viewModel: MainViewModel by viewModels {
-        val service = ProductService()
-        val datasource = ProductDataSourceImpl(service)
-        val repository = ProductRepositoryImpl(datasource)
-        GenericViewModelFactory.create(MainViewModel(repository))
+        GenericViewModelFactory.create(createViewModel())
+    }
+
+    private fun createViewModel(): MainViewModel {
+        val service = ProductService.invoke()
+        val dataSource = ProductDataSourceImpl(service)
+        val repository = ProductRepositoryImpl(dataSource)
+        return MainViewModel(repository)
     }
 
     private val adapter: MainAdapter by lazy {
@@ -33,23 +37,24 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupRecyclerView()
-        fetchData()
-
+        observeData()
+        getProductData()
         setContentView(binding.root)
 
     }
 
-    private fun fetchData() {
-        // invoker
+    private fun getProductData() {
         viewModel.getProducts()
+    }
 
-        //observer
+    private fun observeData() {
         viewModel.responseLiveData.observe(this) {
             it.proceedWhen(
                 doOnSuccess = {
                     binding.rvProducts.isVisible = true
-                    it.payload?.let { data ->
-                        adapter.setData(data.products)
+                    it.payload?.let {
+                        //todo : set data to adapter
+//                        adapter.setData(it)
                     }
                     binding.pbLoading.isVisible = false
                 },

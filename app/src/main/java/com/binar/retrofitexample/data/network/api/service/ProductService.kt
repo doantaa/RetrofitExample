@@ -1,6 +1,7 @@
-package com.binar.retrofitexample.data.api
+package com.binar.retrofitexample.data.network.api.service
 
-import com.binar.retrofitexample.model.ProductsResponse
+import com.binar.retrofitexample.BuildConfig
+import com.binar.retrofitexample.data.network.api.model.ProductsResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,7 +25,7 @@ interface ProductService {
                 .build()
 
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://dummyjson/")
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build()

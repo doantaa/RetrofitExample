@@ -27,6 +27,18 @@ android {
             )
         }
     }
+
+    flavorDimensions += "version"
+    productFlavors {
+        create("production"){
+            buildConfigField("String", "BASE_URL", "\"https://dummyjson.com/\"")
+        }
+
+        create("integration"){
+            buildConfigField("String", "BASE_URL", "\"https://dummyjson.com/\"")
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -37,6 +49,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 

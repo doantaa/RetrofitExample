@@ -1,4 +1,4 @@
-package com.binar.retrofitexample.model
+package com.binar.retrofitexample.data.network.api.model
 
 import android.os.Parcelable
 import androidx.annotation.Keep
@@ -18,7 +18,7 @@ data class Product(
     val price: Long,
     @SerializedName("images")
     val images: List<String>
-): Parcelable
+) : Parcelable
 
 @Keep
 data class ProductsResponse(

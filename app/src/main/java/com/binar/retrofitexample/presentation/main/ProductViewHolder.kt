@@ -1,10 +1,10 @@
-package com.binar.retrofitexample.ui.main
+package com.binar.retrofitexample.presentation.main
 
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.binar.retrofitexample.core.ViewHolderBinder
 import com.binar.retrofitexample.databinding.ItemProductBinding
-import com.binar.retrofitexample.model.Product
+import com.binar.retrofitexample.data.network.api.model.Product
 import com.binar.retrofitexample.utils.toCurrencyFormat
 
 class ProductViewHolder(
